@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Ma do' cazzo sta?</title>
+</head>
+<body>
+
+<form onsubmit="cercaFilm(); return false;">
+    <input type="text" id="movieName" placeholder="Inserisci il nome del film">
+    <button type="submit">Cerca</button>
+</form>
+<br>
+<form onsubmit="cercaSerieTV(); return false;">
+    <input type="text" id="TVName" placeholder="Inserisci il nome della Serie TV">
+    <button type="submit">Cerca</button>
+</form>
+<br>
+<div id="morite"> Netflix </div>
+<div id="voi_di_piu"> Prime Video </div>
+<div id="stronzi"> Sky/Now </div>
+<div id="money_grabber"> Disney+ </div>
+<div id="antitrust"> Paramount+ </div>
+<div id="morto_che_cammina"> Discovery+ </div>
+<div id="mai_stato_vivo"> HBO Max </div>
+<div id="chi"> Tim Vision </div>
+<div id="smallestR"> Rai Play </div>
+<div id="merde"> Mediaset </div>
+<div id="quello_che_usa_nonno"> La7 </div>
+<div id="goat"><br></div>
+<br>
+<div>I dati vengono da TMDB e da JustWatch</div>
+
+
+</body>
+<script>
+function cercaFilm() {
+    const film = encodeURIComponent(document.getElementById("movieName").value);
+	
+	const options = {
+	  method: 'GET',
+	  headers: {
+		accept: 'application/json',
+		Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2MmU3ZmEzMDJmM2I1MTkxNTAxZTY2MjMzY2QwY2VkMiIsIm5iZiI6MTc5MTk4NTM3Mi4yMDcsInN1YiI6IjZhY2Y4NmRjZmQwMWZjOTRiMDhhNTQ4ZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.tJUzEsxHQcLeoACPr1i0nT_Hlw8yVOeS3-g_JEXeIws'
+	  }
+	};
+
+	fetch('https://api.themoviedb.org/3/search/movie?query='+film+'&include_adult=true&language=it-IT&page=1', options)
+	  .then(res => res.json())
+	  .then(res => {
+		  console.log(res.results[0].id);
+		  const id = res.results[0].id;
+		  
+		  const options_2 = {
+			method: 'GET',
+			headers: {
+			accept: 'application/json',
+			Authorization: 'Bearer 	eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2MmU3ZmEzMDJmM2I1MTkxNTAxZTY2MjMzY2QwY2VkMiIsIm5iZiI6MTc5MTk4NTM3Mi4yMDcsInN1YiI6IjZhY2Y4NmRjZmQwMWZjOTRiMDhhNTQ4ZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.tJUzEsxHQcLeoACPr1i0nT_Hlw8yVOeS3-g_JEXeIws'
+			}
+			};
+
+			fetch('https://api.themoviedb.org/3/movie/'+id+'/watch/providers', options_2)
+			.then(res => res.json())
+			.then(res => {
+				const providerNames = res.results.IT?.flatrate?.map(p => p.provider_name) || [];
+				console.log(providerNames);
+				
+				if (providerNames.some(p => p.includes("HBO"))) {
+					document.getElementById("mai_stato_vivo").style.color = "#00ff00";
+				}
+				if (providerNames.some(p => p.includes("Netflix"))) {
+					document.getElementById("morite").style.color = "#00ff00";
+				}
+				if (providerNames.some(p => p.includes("Prime"))) {
+					document.getElementById("voi_di_piu").style.color = "#00ff00";
+				}
+				if (providerNames.some(p => p.includes("Now"))) {
+					document.getElementById("stronzi").style.color = "#00ff00";
+				}
+				if (providerNames.some(p => p.includes("Sky"))) {
+					document.getElementById("stronzi").style.color = "#00ff00";
+				}
+				if (providerNames.some(p => p.includes("Disney"))) {
+					document.getElementById("money_grabber").style.color = "#00ff00";
+				}
+				if (providerNames.some(p => p.includes("Paramount"))) {
+					document.getElementById("antitrust").style.color = "#00ff00";
+				}
+				if (providerNames.some(p => p.includes("Discovery"))) {
+					document.getElementById("morto_che_cammina").style.color = "#00ff00";
+				}
+				if (providerNames.some(p => p.includes("Tim"))) {
+					document.getElementById("chi").style.color = "#00ff00";
+				}
+				if (providerNames.some(p => p.includes("Rai"))) {
+					document.getElementById("smallestR").style.color = "#00ff00";
+				}
+				if (providerNames.some(p => p.includes("Mediaset"))) {
+					document.getElementById("merde").style.color = "#00ff00";
+				}
+				if (providerNames.some(p => p.includes("La7"))) {
+					document.getElementById("quello_che_usa_nonno").style.color = "#00ff00";
+				}
+				document.getElementById("goat").innerText = " 🏴‍☠ ️ 🏴‍☠ ️ 🏴‍☠ ️ 🏴‍☠ ️";
+				document.getElementById("goat").style.color = "#00ff00️";
+			})
+			.catch(err => console.error(err));
+		  })
+	  .catch(err => console.error(err)); 
+	}
+
+	function cercaSerieTV() {
+		const TV = encodeURIComponent(document.getElementById("TVName").value);
+	const options = {
+	  method: 'GET',
+	  headers: {
+		accept: 'application/json',
+		Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2MmU3ZmEzMDJmM2I1MTkxNTAxZTY2MjMzY2QwY2VkMiIsIm5iZiI6MTc5MTk4NTM3Mi4yMDcsInN1YiI6IjZhY2Y4NmRjZmQwMWZjOTRiMDhhNTQ4ZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.tJUzEsxHQcLeoACPr1i0nT_Hlw8yVOeS3-g_JEXeIws'
+	  }
+	};
+
+	fetch('https://api.themoviedb.org/3/search/tv?query='+TV+'&include_adult=true&language=it-IT&page=1', options)
+	  .then(res => res.json())
+	  .then(res => {
+		  console.log(res.results[0]);
+		  const id = res.results[0].id;
+		  
+		  const options_2 = {
+			method: 'GET',
+			headers: {
+			accept: 'application/json',
+			Authorization: 'Bearer 	eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2MmU3ZmEzMDJmM2I1MTkxNTAxZTY2MjMzY2QwY2VkMiIsIm5iZiI6MTc5MTk4NTM3Mi4yMDcsInN1YiI6IjZhY2Y4NmRjZmQwMWZjOTRiMDhhNTQ4ZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.tJUzEsxHQcLeoACPr1i0nT_Hlw8yVOeS3-g_JEXeIws'
+			}
+			};
+
+			fetch('https://api.themoviedb.org/3/tv/'+id+'/watch/providers', options_2)
+			.then(res => res.json())
+			.then(res => {
+				const providerNames = res.results.IT?.flatrate?.map(p => p.provider_name) || [];
+				console.log(res.results[0]);
+				
+				if (providerNames.some(p => p.includes("HBO"))) {
+					document.getElementById("mai_stato_vivo").style.color = "#00ff00";
+				}
+				if (providerNames.some(p => p.includes("Netflix"))) {
+					document.getElementById("morite").style.color = "#00ff00";
+				}
+				if (providerNames.some(p => p.includes("Prime"))) {
+					document.getElementById("voi_di_piu").style.color = "#00ff00";
+				}
+				if (providerNames.some(p => p.includes("Now"))) {
+					document.getElementById("stronzi").style.color = "#00ff00";
+				}
+				if (providerNames.some(p => p.includes("Sky"))) {
+					document.getElementById("stronzi").style.color = "#00ff00";
+				}
+				if (providerNames.some(p => p.includes("Disney"))) {
+					document.getElementById("money_grabber").style.color = "#00ff00";
+				}
+				if (providerNames.some(p => p.includes("Paramount"))) {
+					document.getElementById("antitrust").style.color = "#00ff00";
+				}
+				if (providerNames.some(p => p.includes("Discovery"))) {
+					document.getElementById("morto_che_cammina").style.color = "#00ff00";
+				}
+				if (providerNames.some(p => p.includes("Tim"))) {
+					document.getElementById("chi").style.color = "#00ff00";
+				}
+				if (providerNames.some(p => p.includes("Rai"))) {
+					document.getElementById("smallestR").style.color = "#00ff00";
+				}
+				if (providerNames.some(p => p.includes("Mediaset"))) {
+					document.getElementById("merde").style.color = "#00ff00";
+				}
+				if (providerNames.some(p => p.includes("La7"))) {
+					document.getElementById("quello_che_usa_nonno").style.color = "#00ff00";
+				}
+				document.getElementById("goat").innerText = " 🏴‍☠ ️ 🏴‍☠ ️ 🏴‍☠ ️ 🏴‍☠ ️";
+				document.getElementById("goat").style.color = "#00ff00️";
+			})
+			.catch(err => console.error(err));
+		  })
+	  .catch(err => console.error(err)); 
+	} 
+</script>
+</html>
